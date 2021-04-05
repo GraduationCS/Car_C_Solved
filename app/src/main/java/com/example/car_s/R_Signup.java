@@ -1,6 +1,9 @@
 package com.example.car_s;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -13,12 +16,17 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class R_Signup extends AppCompatActivity {
@@ -125,17 +133,34 @@ public class R_Signup extends AppCompatActivity {
         String city=spcity.getSelectedItem().toString();
         String UN=uname.getText().toString();
 
-        if (!TextUtils.isEmpty(full_name) && !TextUtils.isEmpty(agee) && !TextUtils.isEmpty(phone_num) && !TextUtils.isEmpty(city) && !TextUtils.isEmpty(job_type) && !TextUtils.isEmpty(ex) && !TextUtils.isEmpty(passw)){
+        Query usernameQuery = FirebaseDatabase.getInstance().getReference().child("repairmen").orderByChild("username").equalTo(UN);
+        usernameQuery.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("ResourceType")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.getChildrenCount()>0) {
+                    uname.setTextColor(Color.parseColor("#F44336"));
+                    uname.setBackgroundResource(R.drawable.edittext_border_red);
+                    Toast.makeText(R_Signup.this, "Try another usernamen", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    if (!TextUtils.isEmpty(full_name) && !TextUtils.isEmpty(agee) && !TextUtils.isEmpty(phone_num) && !TextUtils.isEmpty(city) && !TextUtils.isEmpty(job_type) && !TextUtils.isEmpty(ex) && !TextUtils.isEmpty(passw)){
+                        RepairmenHelperClass repairmenHelperClass=new RepairmenHelperClass(full_name,UN,agee,phone_num,city,job_type,ex,passw);
+                        databaseReference.child(UN).setValue(repairmenHelperClass);
+                        Toast.makeText(R_Signup.this, "done", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
 
-            String id=databaseReference.push().getKey();
-            RepairmenHelperClass repairmenHelperClass=new RepairmenHelperClass(id,full_name,UN,agee,phone_num,city,job_type,ex,passw);
-            databaseReference.child(id).setValue(repairmenHelperClass);
-            Toast.makeText(this, "done", Toast.LENGTH_SHORT).show();
-        }
-        else{
+                        Toast.makeText(R_Signup.this, "unsucessful", Toast.LENGTH_SHORT).show();
+                    }
+                }
 
-            Toast.makeText(this, "unsucessful", Toast.LENGTH_SHORT).show();
-        }
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

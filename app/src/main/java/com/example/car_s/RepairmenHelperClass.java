@@ -2,15 +2,7 @@ package com.example.car_s;
 
 public class RepairmenHelperClass {
 
-    String id,full_name,username,age_get,phone,city,job_type,experience,pass;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+    String full_name,username,age_get,phone,city,job_type,experience,pass;
 
     public String getFull_name() {
         return full_name;
@@ -76,9 +68,8 @@ public class RepairmenHelperClass {
         this.city = city;
     }
 
-    public RepairmenHelperClass(String id, String full_name, String username, String age_get, String phone, String city, String job_type, String experience, String pass) {
+    public RepairmenHelperClass(String full_name, String username, String age_get, String phone, String city, String job_type, String experience, String pass) {
 
-        this.id=id;
         this.full_name=full_name;
         this.username=username;
         this.age_get=age_get;
