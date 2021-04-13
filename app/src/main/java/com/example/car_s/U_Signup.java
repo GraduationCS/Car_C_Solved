@@ -138,6 +138,7 @@ public class U_Signup extends AppCompatActivity {
 
         //////////////////////////////////////////////////////////////////////////// Upload Image
 
+
         /*if (w1 != null){
             StorageReference fileRefrence = storageReference.child("users/"+ UUID.randomUUID().toString());
             fileRefrence.putFile(selectedImage).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
