@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.ArrayAdapter;
@@ -51,7 +53,6 @@ public class U_Signup extends AppCompatActivity {
     Button button;
     Uri selectedImage;
     EditText firstName,secondName,age,phone,pass,uname;
-    private StorageReference storageReference;
     ProgressBar progressBar;
 
     @Override
@@ -187,6 +188,9 @@ public class U_Signup extends AppCompatActivity {
                     uname.setTextColor(Color.parseColor("#F44336"));
                     uname.setBackgroundResource(R.drawable.edittext_border_red);
                     Toast.makeText(U_Signup.this, "Try another username", Toast.LENGTH_SHORT).show();
+                }
+                if(Integer.parseInt(phone_num)<=5){;
+                    Toast.makeText(U_Signup.this, "", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     if (!TextUtils.isEmpty(full_name) && !TextUtils.isEmpty(agee) && !TextUtils.isEmpty(phone_num) && !TextUtils.isEmpty(city) && !TextUtils.isEmpty(passw) && !TextUtils.isEmpty(UN)){

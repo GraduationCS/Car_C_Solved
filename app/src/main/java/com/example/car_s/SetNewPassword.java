@@ -11,6 +11,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class SetNewPassword extends AppCompatActivity {
 
+    DatabaseReference databaseReference;
     EditText editText1,editText2;
     Button button;
 
@@ -42,11 +43,16 @@ public class SetNewPassword extends AppCompatActivity {
         String pass1 = editText1.getText().toString().trim();
         String pass2 = editText2.getText().toString().trim();
 
+        String usernameDB = getIntent().getStringExtra("usernameDB");
+
         if (pass1.equals(pass2)){
             String newPassword = editText1.getText().toString().trim();
-            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users");
-            databaseReference.child("username").child("pass").setValue(newPassword);
+            databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
+            databaseReference.child(usernameDB).child("pass").setValue(newPassword);
             Toast.makeText(this, "Password Changed", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(this, "the password doesn't match", Toast.LENGTH_SHORT).show();
         }
     }
 }
